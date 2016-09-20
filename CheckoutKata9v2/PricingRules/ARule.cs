@@ -8,7 +8,12 @@ namespace CheckoutKata9v2.PricingRules
 {
     public abstract class ARule
     {
-        public void Interpret(ICheckout checkout, IProductRepository productRepo)
+        /// <summary>
+        /// This is were all the calulating is done. It repeats to catch
+        /// multiple instances of the same pricing rule.
+        /// </summary>
+        /// <param name="checkout"></param>
+        public void Interpret(ICheckout checkout)
         {
             bool repeat = true;
 
@@ -16,7 +21,7 @@ namespace CheckoutKata9v2.PricingRules
             {
                 if (DoesSKUApply(checkout))
                 {
-                    checkout.Total += Price(productRepo);
+                    checkout.Total += Price(checkout.ProductDb);
                     checkout.SkuQueue = checkout.SkuQueue.Substring(SKUPattern.Length);
                     checkout.Receipt.AppendLine(AddToReceipt);
                 }

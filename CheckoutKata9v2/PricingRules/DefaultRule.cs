@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata9v2.PricingRules
 {
+    /// <summary>
+    /// The default rule retrieves the price from the product repository.
+    /// </summary>
     public class DefaultRule : ARule
     {
         private char _sku;

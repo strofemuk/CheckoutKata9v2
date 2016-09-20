@@ -14,6 +14,9 @@ namespace CheckoutKata9v2
         Ton = 4,
     }
 
+    /// <summary>
+    /// Simple entity class to represent a product
+    /// </summary>
     public class Product
     {
         public string Description { get; set; }

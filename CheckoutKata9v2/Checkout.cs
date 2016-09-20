@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata9v2
 {
+    /// <summary>
+    /// This represents the checkout function.
+    /// In the ProcessScanned functions, the Checkout object is handed off
+    /// to the ARule class's Interpret function thus calculating price and 
+    /// building part of a receipt.
+    /// </summary>
     public class Checkout : ICheckout
     {
         public Checkout(ProductRepository productDb)
@@ -15,6 +21,12 @@ namespace CheckoutKata9v2
             Receipt = new StringBuilder();
         }
 
+        /// <summary>
+        /// Let's scan some products...BEEP...BEEP...BEEP
+        /// This adds product's SKU to the processing queue.
+        /// </summary>
+        /// <param name="skus"></param>
+        /// <returns></returns>
         public decimal Scan(string skus)
         {
             Total = 0.0m;
@@ -26,13 +38,22 @@ namespace CheckoutKata9v2
             return Total;
         }
 
-
+        /// <summary>
+        /// Let's scan a product...BEEP...
+        /// This adds a poduct's SKU to the processing queue.
+        /// </summary>
+        /// <param name="sku"></param>
+        /// <returns></returns>
         public decimal Scan(char sku)
         {
             ScannedSkus += sku;
             return Scan(ScannedSkus);
         }
 
+        /// <summary>
+        /// This processes the processing queueu.  
+        /// Using an interpreter pattern, each rule class adds to the price.
+        /// </summary>
         public void ProcessScans()
         {
             List<ARule> rules = new List<ARule>();
@@ -42,10 +63,13 @@ namespace CheckoutKata9v2
 
             foreach (ARule rule in rules)
             {
-                rule.Interpret(this,ProductDb);                
+                rule.Interpret(this);                
             }
         }
 
+        /// <summary>
+        /// The processing queue has to be soreted to be properly processed.
+        /// </summary>
         private void SortQ()
         {
             char[] charQ = SkuQueue.ToCharArray();
@@ -57,10 +81,16 @@ namespace CheckoutKata9v2
             }
         }
 
+        /// <summary>
+        /// The processed tootal.
+        /// </summary>
         public decimal Total { get; set; }
         
         private string _scannedSkus = string.Empty;
         
+        /// <summary>
+        /// The SKUs that were scanned.
+        /// </summary>
         public string ScannedSkus {
             get { return _scannedSkus; }
             private set
@@ -71,6 +101,9 @@ namespace CheckoutKata9v2
         }
 
         public string SkuQueue { get; set; }
+        /// <summary>
+        /// The receipt particulars built by the pricing rules.
+        /// </summary>
         public StringBuilder Receipt { get; set; }
         public ProductRepository ProductDb { get; private set; }
     }

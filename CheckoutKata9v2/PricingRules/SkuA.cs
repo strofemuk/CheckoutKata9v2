@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata9v2.PricingRules
 {
+    /// <summary>
+    /// SKU = a, Quantity = 3, price = 1.30
+    /// </summary>
     public class SkuA : ARule
     {
         public override bool DoesSKUApply(ICheckout checkout)

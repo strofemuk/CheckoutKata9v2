@@ -8,6 +8,11 @@ namespace CheckoutKata9v2.PricingRules
 {
     public class SkuB : ARule
     {
+        /// <summary>
+        /// SKU = B, Quantity = 2, price = .45
+        /// </summary>
+        /// <param name="checkout"></param>
+        /// <returns></returns>
         public override bool DoesSKUApply(ICheckout checkout)
         {
             return checkout.SkuQueue.StartsWith(SKUPattern);

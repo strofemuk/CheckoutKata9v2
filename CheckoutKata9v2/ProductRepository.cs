@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata9v2
 {
+    /// <summary>
+    /// THe repository of products.  In a real world system I would expect this to be a dabase connection.
+    /// </summary>
     public class ProductRepository : List<Product>, IProductRepository
     {
         public ProductRepository()
