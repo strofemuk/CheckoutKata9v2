@@ -31,9 +31,6 @@ namespace CheckoutKata9v2Tests
         total = co.scan(item)
         total += co.scan(item)
     
-     * Here’s a set of unit tests for a Ruby implementation. The helper method price lets you specify a sequence of items using a 
-     * string, calling the checkout’s scan method on each item in turn before finally returning the total price.
-
      * There are lots of ways of implementing this kind of algorithm; if you have time, experiment with several.
 
      * Objectives of the Kata
