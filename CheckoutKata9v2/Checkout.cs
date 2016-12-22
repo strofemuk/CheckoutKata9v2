@@ -15,9 +15,10 @@ namespace CheckoutKata9v2
     /// </summary>
     public class Checkout : ICheckout
     {
-        public Checkout(ProductRepository productDb)
+        public Checkout(ProductRepository productDb, List<ARule> pricingRules)
         {
             ProductDb = productDb;
+            PricingRules = pricingRules;
             Receipt = new StringBuilder();
         }
 
@@ -56,12 +57,7 @@ namespace CheckoutKata9v2
         /// </summary>
         public void ProcessScans()
         {
-            List<ARule> rules = new List<ARule>();
-            rules.Add(new SkuA());
-            rules.Add(new SkuB());
-            rules.Add(new DefaultRule());
-
-            foreach (ARule rule in rules)
+            foreach (ARule rule in PricingRules)
             {
                 rule.Interpret(this);                
             }
@@ -106,5 +102,6 @@ namespace CheckoutKata9v2
         /// </summary>
         public StringBuilder Receipt { get; set; }
         public ProductRepository ProductDb { get; private set; }
+        public List<ARule> PricingRules { get; private set; }
     }
 }

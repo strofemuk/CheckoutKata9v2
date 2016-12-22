@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CheckoutKata9v2.PricingRules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,12 @@ namespace CheckoutKata9v2
     {
         static void Main(string[] args)
         {
-            Checkout c = new Checkout(new ProductRepository());
+            List<ARule> pricingRules = new List<ARule>();
+            pricingRules.Add(new SkuA());
+            pricingRules.Add(new SkuB());
+            pricingRules.Add(new DefaultRule());
+
+            Checkout c = new Checkout(new ProductRepository(), pricingRules);
             c.Scan("AAA");
             Console.WriteLine(c.Total);
 

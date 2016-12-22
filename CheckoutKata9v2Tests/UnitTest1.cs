@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CheckoutKata9v2;
+using System.Collections.Generic;
+using CheckoutKata9v2.PricingRules;
 
 namespace CheckoutKata9v2Tests
 {
@@ -47,7 +49,12 @@ namespace CheckoutKata9v2Tests
         [TestMethod]
         public void TestPrice()
         {
-            ICheckout checkOut = new Checkout(new ProductRepository());
+            List<ARule> pricingRules = new List<ARule>();
+            pricingRules.Add(new SkuA());
+            pricingRules.Add(new SkuB());
+            pricingRules.Add(new DefaultRule());
+
+            ICheckout checkOut = new Checkout(new ProductRepository(), pricingRules);
 
             Assert.AreEqual(.5M, checkOut.Scan("A"));
             Assert.AreEqual(.8M, checkOut.Scan("AB"));
@@ -68,7 +75,12 @@ namespace CheckoutKata9v2Tests
         [TestMethod]
         public void TestIncremental()
         {
-            ICheckout checkOut = new Checkout(new ProductRepository());
+            List<ARule> pricingRules = new List<ARule>();
+            pricingRules.Add(new SkuA());
+            pricingRules.Add(new SkuB());
+            pricingRules.Add(new DefaultRule());
+
+            ICheckout checkOut = new Checkout(new ProductRepository(), pricingRules);
 
             Assert.AreEqual(checkOut.Total, 0.0M);
             Assert.AreEqual(0.5M, checkOut.Scan('A'));
