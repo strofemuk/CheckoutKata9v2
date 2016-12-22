@@ -43,48 +43,48 @@ namespace CheckoutKata9v2Tests
     [TestClass]
     public class UnitTest1
     {
+        private List<ARule> _pricingRules = new List<ARule>();
+        private ICheckout _checkOut;
+
+        [TestInitialize]
+        public void TestInit()
+        {
+            _pricingRules.Clear();
+            _pricingRules.Add(new SkuA());
+            _pricingRules.Add(new SkuB());
+            _pricingRules.Add(new DefaultRule());
+
+            _checkOut = new Checkout(new ProductRepository(), _pricingRules);
+        }
+
         [TestMethod]
         public void TestPrice()
         {
-            List<ARule> pricingRules = new List<ARule>();
-            pricingRules.Add(new SkuA());
-            pricingRules.Add(new SkuB());
-            pricingRules.Add(new DefaultRule());
+            Assert.AreEqual(.5M, _checkOut.Scan("A"));
+            Assert.AreEqual(.8M, _checkOut.Scan("AB"));
+            Assert.AreEqual(1.15M, _checkOut.Scan("CDBA"));
 
-            ICheckout checkOut = new Checkout(new ProductRepository(), pricingRules);
+            Assert.AreEqual(1.00M, _checkOut.Scan("AA"));
+            Assert.AreEqual(1.30M, _checkOut.Scan("AAA"));
+            Assert.AreEqual(1.80M, _checkOut.Scan("AAAA"));
+            Assert.AreEqual(2.30M, _checkOut.Scan("AAAAA"));
+            Assert.AreEqual(2.60M, _checkOut.Scan("AAAAAA"));
 
-            Assert.AreEqual(.5M, checkOut.Scan("A"));
-            Assert.AreEqual(.8M, checkOut.Scan("AB"));
-            Assert.AreEqual(1.15M, checkOut.Scan("CDBA"));
-
-            Assert.AreEqual(1.00M, checkOut.Scan("AA"));
-            Assert.AreEqual(1.30M, checkOut.Scan("AAA"));
-            Assert.AreEqual(1.80M, checkOut.Scan("AAAA"));
-            Assert.AreEqual(2.30M, checkOut.Scan("AAAAA"));
-            Assert.AreEqual(2.60M, checkOut.Scan("AAAAAA"));
-
-            Assert.AreEqual(1.60M, checkOut.Scan("AAAB"));
-            Assert.AreEqual(1.75M, checkOut.Scan("AAABB"));
-            Assert.AreEqual(1.90M, checkOut.Scan("AAABBD"));
-            Assert.AreEqual(1.90M, checkOut.Scan("DABABA"));
+            Assert.AreEqual(1.60M, _checkOut.Scan("AAAB"));
+            Assert.AreEqual(1.75M, _checkOut.Scan("AAABB"));
+            Assert.AreEqual(1.90M, _checkOut.Scan("AAABBD"));
+            Assert.AreEqual(1.90M, _checkOut.Scan("DABABA"));
         }
 
         [TestMethod]
         public void TestIncremental()
         {
-            List<ARule> pricingRules = new List<ARule>();
-            pricingRules.Add(new SkuA());
-            pricingRules.Add(new SkuB());
-            pricingRules.Add(new DefaultRule());
-
-            ICheckout checkOut = new Checkout(new ProductRepository(), pricingRules);
-
-            Assert.AreEqual(checkOut.Total, 0.0M);
-            Assert.AreEqual(0.5M, checkOut.Scan('A'));
-            Assert.AreEqual(0.8M, checkOut.Scan('B'));
-            Assert.AreEqual(1.3M, checkOut.Scan('A'));
-            Assert.AreEqual(1.6M, checkOut.Scan('A'));
-            Assert.AreEqual(1.75M, checkOut.Scan('B'));
+            Assert.AreEqual(_checkOut.Total, 0.0M);
+            Assert.AreEqual(0.5M, _checkOut.Scan('A'));
+            Assert.AreEqual(0.8M, _checkOut.Scan('B'));
+            Assert.AreEqual(1.3M, _checkOut.Scan('A'));
+            Assert.AreEqual(1.6M, _checkOut.Scan('A'));
+            Assert.AreEqual(1.75M, _checkOut.Scan('B'));
         }
     }
 }
